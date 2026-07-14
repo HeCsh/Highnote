@@ -10,3 +10,4 @@ recon/*.js
 recon/*.css
 recon/*.html
 *.log
+*.tsbuildinfo
