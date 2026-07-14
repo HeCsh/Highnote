@@ -5,21 +5,24 @@ import { DEMO_SLUG } from "../lib/config";
 export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col bg-page text-cream">
-      <header className="max-w-6xl w-full mx-auto px-6 py-6 flex items-center justify-between">
+      <header className="max-w-6xl w-full mx-auto px-6 py-6 flex items-center justify-between animate-fade-in">
         <Logo className="text-xl" />
-        <Link to="/dashboard" className="text-sm text-on-dark underline-offset-4 hover:underline">
+        <Link
+          to="/dashboard"
+          className="text-sm text-on-dark underline-offset-4 hover:underline hover:text-cream transition-colors"
+        >
           Owner dashboard →
         </Link>
       </header>
 
       <main className="flex-1 grid md:grid-cols-2 gap-10 max-w-6xl w-full mx-auto px-6 py-16 items-center">
-        <div>
+        <div className="stagger">
           <Eyebrow className="mb-4 tracking-[0.3em]">REPUTATION ENGINE</Eyebrow>
           <h1 className="font-display text-6xl md:text-7xl leading-[0.95]">
             end every meal on a <span className="text-gold">high note.</span>
           </h1>
           {/* Corrected, compliance-safe hero copy (no review-gating language). */}
-          <p className="mt-6 text-base max-w-md text-on-dark">
+          <p className="mt-6 text-base max-w-md text-on-dark leading-relaxed">
             HighNote captures guest feedback at the table — then invites{" "}
             <span className="text-cream font-medium">every diner</span> to share it on Google.
             Owner-only insights, in your restaurant's voice.
@@ -27,21 +30,21 @@ export default function Landing() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to={`/r/${DEMO_SLUG}?t=12`}
-              className="px-5 py-3 rounded-md text-sm font-semibold bg-gold text-ink hover:brightness-105 transition"
+              className="btn-smooth btn-sheen px-5 py-3 rounded-md text-sm font-semibold bg-gold text-ink shadow-lg shadow-gold/20 hover:brightness-105"
             >
               Try the guest page →
             </Link>
             <Link
               to="/dashboard"
-              className="px-5 py-3 rounded-md text-sm font-semibold border border-on-dark-border text-cream hover:bg-white/5 transition"
+              className="btn-smooth px-5 py-3 rounded-md text-sm font-semibold border border-on-dark-border text-cream hover:bg-white/5 hover:border-sage/50"
             >
               See owner dashboard
             </Link>
           </div>
         </div>
 
-        <div className="justify-self-center">
-          <div className="w-[320px] shadow-big rounded-sm overflow-hidden">
+        <div className="justify-self-center animate-fade-up [animation-delay:0.25s]">
+          <div className="w-[320px] shadow-big rounded-sm overflow-hidden animate-float">
             <Ticket>
               <div className="font-display text-2xl">Fog &amp; Fern</div>
               <div className="text-[10px] tracking-[0.22em] mt-2">THANKS FOR DINING · TABLE 12</div>

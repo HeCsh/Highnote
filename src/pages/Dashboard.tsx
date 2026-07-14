@@ -73,7 +73,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-page text-cream">
       {/* header */}
-      <header className="border-b border-on-dark-border/50">
+      <header className="border-b border-on-dark-border/50 animate-fade-in sticky top-0 z-20 backdrop-blur-md bg-page/70">
         <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
             <Link to="/">
@@ -101,7 +101,7 @@ export default function Dashboard() {
 
       <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
         {/* KPI row (4 cards + distribution as 5th element) */}
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 stagger">
           <Kpi label="GOOGLE RATING">
             <div className="flex items-baseline gap-1">
               <span className="font-display text-4xl text-cream">{stats.avg.toFixed(1)}</span>
@@ -157,7 +157,7 @@ export default function Dashboard() {
             <button
               onClick={refreshInsights}
               disabled={loadingInsights}
-              className="text-xs font-medium bg-gold text-ink rounded-lg px-3 py-2 hover:brightness-105 transition disabled:opacity-50"
+              className="btn-smooth btn-sheen text-xs font-medium bg-gold text-ink rounded-lg px-3 py-2 hover:brightness-105 disabled:opacity-50"
             >
               {loadingInsights ? "Analyzing…" : "✦ Refresh insights"}
             </button>
@@ -178,7 +178,7 @@ export default function Dashboard() {
                   </div>
                 ))
               : insights.map((ins) => (
-                  <div key={ins.id} className="rounded-xl border border-on-dark-border/50 bg-white/[0.03] p-4">
+                  <div key={ins.id} className="surface lift rounded-xl p-4 animate-fade-up">
                     <div className="font-display text-base text-cream">{ins.title}</div>
                     <p className="text-sm text-on-dark mt-1.5 leading-relaxed">{ins.detail}</p>
                     {ins.demo && (
@@ -197,7 +197,7 @@ export default function Dashboard() {
             {liveStream.map((f) => (
               <div
                 key={f.id}
-                className="animate-slide-in flex items-center gap-3 rounded-xl border border-on-dark-border/40 bg-white/[0.02] px-4 py-3"
+                className="animate-slide-in flex items-center gap-3 rounded-xl border border-on-dark-border/40 bg-white/[0.02] px-4 py-3 transition-colors duration-200 hover:bg-white/[0.05] hover:border-gold/25"
               >
                 <StarRow rating={f.rating} size={14} />
                 <div className="flex gap-1 flex-wrap">
@@ -258,7 +258,7 @@ export default function Dashboard() {
         <Panel title="Tabletop QR codes" subtitle="One card per table, HighNote-branded">
           <Link
             to="/onboarding?step=3"
-            className="inline-block text-sm font-semibold bg-gold text-ink rounded-lg px-4 py-2.5 hover:brightness-105 transition"
+            className="btn-smooth btn-sheen inline-block text-sm font-semibold bg-gold text-ink rounded-lg px-4 py-2.5 hover:brightness-105"
           >
             Download table QR codes (PDF)
           </Link>
@@ -272,7 +272,7 @@ export default function Dashboard() {
 
 function Kpi({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-on-dark-border/50 bg-white/[0.03] p-4">
+    <div className="surface lift rounded-2xl p-4">
       <div className="text-[10px] tracking-[0.18em] text-on-dark-muted uppercase mb-2">{label}</div>
       {children}
     </div>
@@ -302,7 +302,7 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-on-dark-border/50 bg-white/[0.02] p-5">
+    <section className="surface rounded-2xl p-5 animate-fade-up">
       <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
         <div>
           <h2 className="font-display text-xl text-cream">{title}</h2>

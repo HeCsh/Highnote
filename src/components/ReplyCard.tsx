@@ -34,7 +34,7 @@ export default function ReplyCardView({ review, voice }: { review: ReviewCard; v
   const initial = review.author_name.charAt(0);
 
   return (
-    <div className="rounded-xl border border-border bg-cream p-4">
+    <div className="rounded-xl border border-border bg-cream p-4 transition-shadow duration-300 hover:shadow-lg animate-fade-up">
       <div className="flex items-start gap-3">
         <div className="w-8 h-8 rounded-full bg-sage/30 text-ink flex items-center justify-center font-display text-sm shrink-0">
           {initial}
@@ -52,7 +52,7 @@ export default function ReplyCardView({ review, voice }: { review: ReviewCard; v
           {!draft && !loading && (
             <button
               onClick={generate}
-              className="mt-3 text-sm font-medium text-ink border border-ink/20 rounded-lg px-3 py-2 hover:bg-ink hover:text-cream transition"
+              className="btn-smooth mt-3 text-sm font-medium text-ink border border-ink/20 rounded-lg px-3 py-2 hover:bg-ink hover:text-cream hover:border-ink transition-colors"
             >
               ✦ Generate reply with AI
             </button>
@@ -67,7 +67,7 @@ export default function ReplyCardView({ review, voice }: { review: ReviewCard; v
           )}
 
           {draft && !loading && (
-            <div className="mt-3">
+            <div className="mt-3 animate-fade-up">
               <label className="sr-only" htmlFor={`draft-${review.id}`}>
                 Draft reply for {review.author_name}
               </label>

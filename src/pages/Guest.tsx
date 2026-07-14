@@ -99,7 +99,7 @@ export default function Guest() {
         ) : (
           <>
             {/* ticket header */}
-            <div className="rounded-sm overflow-hidden shadow-big mb-6">
+            <div className="rounded-sm overflow-hidden shadow-big mb-6 animate-fade-up">
               <Ticket>
                 <div className="font-display text-2xl">{restaurant}</div>
                 <div className="text-[10px] tracking-[0.22em] mt-2">
@@ -109,7 +109,7 @@ export default function Guest() {
               </Ticket>
             </div>
 
-            <div className="bg-cream rounded-3xl p-7 shadow-2xl">
+            <div className="bg-cream rounded-3xl p-7 shadow-2xl animate-fade-up [animation-delay:0.1s]">
               <h1 className="font-display text-2xl text-ink text-center mb-6 leading-snug">
                 {t.question}
               </h1>
@@ -128,9 +128,14 @@ export default function Guest() {
                     onFocus={() => setHover(n)}
                     onBlur={() => setHover(0)}
                     onClick={() => setRating(n)}
-                    className="p-1 min-w-[44px] min-h-[44px] flex items-center justify-center transition-transform duration-200 active:scale-95"
+                    className="p-1 min-w-[44px] min-h-[44px] flex items-center justify-center transition-transform duration-200 ease-spring hover:scale-110 active:scale-95"
                   >
-                    <Star size={44} filled={n <= (hover || rating)} />
+                    <span
+                      key={`${n}-${rating === n}`}
+                      className={rating === n ? "inline-flex animate-star-pop" : "inline-flex"}
+                    >
+                      <Star size={44} filled={n <= (hover || rating)} />
+                    </span>
                   </button>
                 ))}
               </div>
@@ -150,9 +155,9 @@ export default function Guest() {
                       type="button"
                       aria-pressed={on}
                       onClick={() => toggleTag(key)}
-                      className={`rounded-full px-3 py-2 min-h-[44px] text-sm font-medium border transition active:scale-95 ${
+                      className={`rounded-full px-3 py-2 min-h-[44px] text-sm font-medium border transition-all duration-200 ease-spring hover:scale-105 active:scale-95 ${
                         on
-                          ? "bg-ink text-cream border-ink"
+                          ? "bg-ink text-cream border-ink shadow-md scale-105"
                           : "bg-cream text-ink border-ink/20 hover:border-ink/40"
                       }`}
                     >
@@ -183,7 +188,7 @@ export default function Guest() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={rating < 1 || submitting}
-                className="mt-4 w-full rounded-xl bg-ink text-cream font-medium py-4 min-h-[44px] text-base transition active:scale-[0.97] hover:bg-ink/95 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="btn-smooth btn-sheen mt-4 w-full rounded-xl bg-ink text-cream font-medium py-4 min-h-[44px] text-base hover:bg-ink/95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none"
               >
                 {submitting ? "…" : `${t.google} →`}
               </button>
@@ -202,10 +207,12 @@ export default function Guest() {
 
 function ThankYou({ t }: { t: ReturnType<typeof useLang>[2] }) {
   return (
-    <div className="bg-cream rounded-3xl p-8 shadow-2xl text-center">
-      <div className="flex justify-center gap-1 mb-4">
+    <div className="bg-cream rounded-3xl p-8 shadow-2xl text-center animate-fade-up">
+      <div className="flex justify-center gap-1 mb-4 stagger">
         {[1, 2, 3, 4, 5].map((n) => (
-          <Star key={n} size={22} />
+          <span key={n} className="inline-flex animate-star-pop" style={{ animationDelay: `${n * 0.07}s` }}>
+            <Star size={22} />
+          </span>
         ))}
       </div>
       <h1 className="font-display text-2xl text-ink mb-3">{t.posted}</h1>

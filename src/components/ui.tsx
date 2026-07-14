@@ -18,6 +18,10 @@ export function Star({
       fill={filled ? "#f2b441" : "#e4dfd3"}
       className={className}
       aria-hidden="true"
+      style={{
+        transition: "fill 0.25s ease, filter 0.25s ease",
+        filter: filled ? "drop-shadow(0 1px 3px rgba(242,180,65,0.45))" : "none",
+      }}
     >
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" />
     </svg>

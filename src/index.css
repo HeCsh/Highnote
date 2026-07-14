@@ -6,6 +6,10 @@
   color-scheme: light dark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
@@ -17,8 +21,82 @@ body {
   font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background: #142819;
   color: #fbf9f4;
+  /* Layered depth on the dark canvas: two soft off-center glows over the base green. */
+  background-color: #122417;
+  background-image:
+    radial-gradient(60rem 40rem at 85% -10%, rgba(127, 169, 139, 0.14), transparent 60%),
+    radial-gradient(48rem 36rem at 0% 100%, rgba(242, 180, 65, 0.08), transparent 55%),
+    linear-gradient(180deg, #142819 0%, #101f14 100%);
+  background-attachment: fixed;
+}
+
+/* ---- Reusable interaction/motion utilities ---- */
+@layer components {
+  /* Frosted card on the dark canvas — subtle gradient + hairline highlight. */
+  .surface {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(228, 223, 211, 0.14);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+  }
+
+  /* Gentle lift on hover — used on cards and interactive tiles. */
+  .lift {
+    transition:
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.28s ease;
+    will-change: transform;
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+    border-color: rgba(242, 180, 65, 0.35);
+  }
+
+  /* Buttons: smooth press + a light sheen sweep on hover. */
+  .btn-smooth {
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+      filter 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .btn-smooth:hover {
+    transform: translateY(-1px);
+  }
+  .btn-smooth:active {
+    transform: translateY(0) scale(0.97);
+  }
+  .btn-sheen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: translateX(-160%);
+    pointer-events: none;
+  }
+  .btn-sheen:hover::after {
+    animation: sheen 0.9s ease-out;
+  }
+
+  /* Staggered list entrance: parent adds .stagger, children fade-up in sequence. */
+  .stagger > * {
+    animation: fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0.04s; }
+  .stagger > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger > *:nth-child(3) { animation-delay: 0.16s; }
+  .stagger > *:nth-child(4) { animation-delay: 0.22s; }
+  .stagger > *:nth-child(5) { animation-delay: 0.28s; }
+  .stagger > *:nth-child(6) { animation-delay: 0.34s; }
+  .stagger > *:nth-child(7) { animation-delay: 0.4s; }
+  .stagger > *:nth-child(8) { animation-delay: 0.46s; }
 }
 
 /* ---- Signature receipt / ticket motifs (verbatim math from Prototype A) ---- */

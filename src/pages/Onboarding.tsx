@@ -110,7 +110,7 @@ function StepConnect({ onNext }: { onNext: () => void }) {
         <button
           onClick={onNext}
           disabled={!connected}
-          className="rounded-lg bg-ink text-cream px-5 py-2.5 text-sm font-semibold disabled:opacity-40 hover:bg-ink/90 transition"
+          className="btn-smooth rounded-lg bg-ink text-cream px-5 py-2.5 text-sm font-semibold disabled:opacity-40 hover:bg-ink/90"
         >
           Continue →
         </button>
@@ -150,7 +150,7 @@ function StepPlatforms({ onBack, onNext }: { onBack: () => void; onNext: () => v
         </button>
         <button
           onClick={onNext}
-          className="rounded-lg bg-ink text-cream px-5 py-2.5 text-sm font-semibold hover:bg-ink/90 transition"
+          className="btn-smooth rounded-lg bg-ink text-cream px-5 py-2.5 text-sm font-semibold hover:bg-ink/90"
         >
           Continue →
         </button>
@@ -171,7 +171,7 @@ function PlatformRow({
   tooltip: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-4 flex items-center gap-3">
+    <div className="rounded-xl border border-border bg-white p-4 flex items-center gap-3 transition-shadow duration-300 hover:shadow-md">
       <div
         className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-display text-lg"
         style={{ background: color }}
@@ -231,23 +231,23 @@ function StepQr({ onBack }: { onBack: () => void }) {
           </button>
           <button
             onClick={() => window.print()}
-            className="rounded-lg bg-gold text-ink px-4 py-2.5 text-sm font-semibold hover:brightness-105 transition"
+            className="btn-smooth btn-sheen rounded-lg bg-gold text-ink px-4 py-2.5 text-sm font-semibold hover:brightness-105"
           >
             Download / Print PDF
           </button>
         </div>
       </div>
 
-      <div className="print-sheet bg-cream rounded-2xl p-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="print-sheet bg-cream rounded-2xl p-6 grid grid-cols-2 sm:grid-cols-3 gap-4 animate-fade-up stagger">
         {codes.length === 0 && (
-          <div className="col-span-full text-center text-muted-foreground py-10">
+          <div className="col-span-full text-center text-muted-foreground py-10 animate-fade-in">
             Generating QR codes…
           </div>
         )}
         {codes.map((c) => (
           <div
             key={c.table}
-            className="rounded-xl border border-border bg-white p-4 flex flex-col items-center text-center"
+            className="rounded-xl border border-border bg-white p-4 flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-gold/40"
           >
             <div className="font-display text-ink text-lg">
               HighNote <span className="text-gold">★</span>
@@ -267,7 +267,9 @@ function StepQr({ onBack }: { onBack: () => void }) {
 
 /* ---------- shared ---------- */
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className="bg-cream rounded-2xl p-7 shadow-big max-w-lg mx-auto">{children}</div>;
+  return (
+    <div className="bg-cream rounded-2xl p-7 shadow-big max-w-lg mx-auto animate-fade-up">{children}</div>
+  );
 }
 
 function GoogleG() {
