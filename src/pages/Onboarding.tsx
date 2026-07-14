@@ -200,6 +200,9 @@ function PlatformRow({
 /* ---------- Step 3: printable QR sheet ---------- */
 function StepQr({ onBack }: { onBack: () => void }) {
   const [codes, setCodes] = useState<{ table: number; url: string; data: string }[]>([]);
+  // QR codes encode publicOrigin(). If that's localhost, a phone can't open them.
+  const origin = publicOrigin();
+  const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])/.test(origin);
 
   useEffect(() => {
     let active = true;
@@ -237,6 +240,18 @@ function StepQr({ onBack }: { onBack: () => void }) {
           </button>
         </div>
       </div>
+
+      {isLocalhost && (
+        <div className="no-print mb-4 rounded-xl border border-brick/30 bg-brick/5 p-4 text-sm text-ink/80 animate-fade-in">
+          <span className="font-semibold text-brick">Heads up:</span> these codes point to{" "}
+          <code className="text-brick">localhost</code>, which a phone can't open. To make them
+          scannable, open HighNote from this machine's network address (e.g.{" "}
+          <code className="text-ink">http://192.168.x.x:5173</code> — shown as the “Network” URL when
+          you run <code className="text-ink">npm run dev</code>) or set{" "}
+          <code className="text-ink">VITE_PUBLIC_URL</code> to your deployed URL, then reload. The
+          codes regenerate for whatever origin you're viewing from.
+        </div>
+      )}
 
       <div className="print-sheet bg-cream rounded-2xl p-6 grid grid-cols-2 sm:grid-cols-3 gap-4 animate-fade-up stagger">
         {codes.length === 0 && (

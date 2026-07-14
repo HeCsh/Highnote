@@ -78,6 +78,15 @@ anonymous insert + read for the demo restaurant `fog-and-fern`.
    reviews this week, rating distribution, 6-week chart, AI Radar, live feed, reviews awaiting reply.
 2. **Judge scans a table QR** (from `/onboarding` step 3, or open `/r/fog-and-fern?t=12` on a phone).
 3. On the phone: **tap 4 stars + "Food"**, optionally a comment, then **Post your review on Google**.
+
+> **QR codes & phone scanning:** each table's QR encodes `<origin>/r/fog-and-fern?t=N`,
+> where `<origin>` is whatever URL you're viewing HighNote from (`window.location.origin`, or
+> `VITE_PUBLIC_URL` if set). If you open the app at `localhost`, the codes point to `localhost`
+> and **a phone can't reach them** — the onboarding QR page shows a warning in that case. To make
+> them scannable, open HighNote from the **Network** URL that `npm run dev` prints (e.g.
+> `http://192.168.x.x:5173`) or set `VITE_PUBLIC_URL` to your deployed URL; the codes regenerate
+> automatically. Routing is per-table correct in all cases (verified by decoding every code).
+
 4. **Watch it appear live** in the dashboard's "Live guest feedback" stream (≤ ~2s), tagged `live`.
    The **rating distribution ticks up**, "captured live" increments, and the current-week bar grows.
    *(Cross-device needs Supabase; same-browser works out of the box — open the phone view in another
