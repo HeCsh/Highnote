@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#142819"/>
+  <g transform="translate(90,90)">
+    <text x="0" y="40" font-family="Archivo, sans-serif" font-size="22" letter-spacing="7" fill="#f2b441">REPUTATION ENGINE</text>
+    <text x="-4" y="180" font-family="Fraunces, serif" font-weight="900" font-size="112" fill="#fbf9f4">end every meal</text>
+    <text x="-4" y="290" font-family="Fraunces, serif" font-weight="900" font-size="112" fill="#fbf9f4">on a <tspan fill="#f2b441">high note.</tspan></text>
+    <text x="0" y="380" font-family="Archivo, sans-serif" font-size="27" fill="#cddccf">Every guest, same invitation — honest reviews on Google,</text>
+    <text x="0" y="418" font-family="Archivo, sans-serif" font-size="27" fill="#cddccf">operations intelligence for the owner.</text>
+    <text x="0" y="500" font-family="Archivo, sans-serif" font-size="21" fill="#8ba392">Compliance-first · No rewards for reviews</text>
+  </g>
+  <g transform="translate(880,250)">
+    <path d="M60 0l18.5 37.6 41.5 6-30 29.3 7 41.1L60 94.1 22 114l7-41.1L-1 43.6l41.5-6z" fill="#f2b441"/>
+  </g>
+  <text x="90" y="600" font-family="Archivo, sans-serif" font-size="26" font-weight="700" fill="#fbf9f4">HighNote <tspan fill="#f2b441">★</tspan></text>
+</svg>
