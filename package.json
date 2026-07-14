@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
+    "test:unit": "esbuild tests/*.test.ts --bundle --platform=node --format=esm --define:import.meta.env={} --outdir=node_modules/.test-build && for f in node_modules/.test-build/*.test.js; do node \"$f\" || exit 1; done",
     "test:e2e": "node tests/demo-flow.mjs"
   },
   "dependencies": {
