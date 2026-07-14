@@ -1,7 +1,37 @@
-import type { Feedback, ReviewCard, TagKey } from "./types";
+import type { Feedback, MenuItem, ReviewCard, TagKey } from "./types";
 import { DEMO_SLUG } from "./config";
 
 const DAY = 86_400_000;
+
+/**
+ * Fog & Fern menu (~12 items), consistent with the demo narrative. Ids are stable
+ * slugs so the same objects work in local-fallback and Supabase modes without a
+ * round-trip. Referenced by comparisons (see buildSeedComparisons + menuStore).
+ */
+export const MENU_ITEMS: MenuItem[] = (
+  [
+    ["mushroom-toast", "Mushroom Toast", "🍄", "Starters"],
+    ["little-gem-salad", "Little Gem Salad", "🥬", "Starters"],
+    ["crispy-brussels", "Crispy Brussels", "🥦", "Starters"],
+    ["pan-seared-halibut", "Pan-Seared Halibut", "🐟", "Mains"],
+    ["half-roast-chicken", "Half Roast Chicken", "🍗", "Mains"],
+    ["squash-risotto", "Squash Risotto", "🎃", "Mains"],
+    ["dry-aged-burger", "Dry-Aged Burger", "🍔", "Mains"],
+    ["olive-oil-cake", "Olive Oil Cake", "🍰", "Desserts"],
+    ["chocolate-pot-de-creme", "Chocolate Pot de Crème", "🍫", "Desserts"],
+    ["affogato", "Affogato", "☕", "Desserts"],
+    ["house-negroni", "House Negroni", "🍸", "Drinks"],
+    ["fog-cutter", "Fog Cutter", "🍹", "Drinks"],
+  ] as const
+).map(([id, name, emoji, section]) => ({
+  id,
+  restaurant_slug: DEMO_SLUG,
+  name,
+  emoji,
+  section: section as MenuItem["section"],
+  active: true,
+  created_at: new Date(0).toISOString(),
+}));
 
 /**
  * ~25 realistic entries spread across the past 6 weeks. Ratings skew 4–5 (a
@@ -73,6 +103,11 @@ export function buildSeedFeedback(now = Date.now()): Feedback[] {
       seed: true,
     };
   });
+}
+
+/** Seeded pairwise comparisons — the real story is built in Task 5. */
+export function buildSeedComparisons(_now = Date.now()): import("./types").Comparison[] {
+  return [];
 }
 
 /** The three reviews awaiting a reply (matches Prototype A's dashboard). */
