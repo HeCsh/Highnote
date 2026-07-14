@@ -109,3 +109,13 @@ the design reference — see `DESIGN_TOKENS.md`. Backend data-flow patterns are 
 - `npm run build` — typecheck + production build
 - `npm run preview` — serve the production build
 - `npm run typecheck` — types only
+- `npm run test:e2e` — Playwright walk-through of the demo (start `npm run dev` first)
+
+### End-to-end coverage
+`tests/demo-flow.mjs` drives a real headless Chromium through the whole demo in one shared browser
+context (so the same-browser `BroadcastChannel` fallback is exercised): it opens the dashboard,
+submits a 4★ "Food" review with a comment from a phone-sized page, and asserts the submission
+**appears live** in the stream; that the Google button is **byte-identical at 1★ and 5★**; that reply
+drafts are signed with no incentive language and **differ across voices**; that Refresh insights
+yields exactly 3 cards; that the guest page renders in 中文 and ES; and that onboarding produces 12
+real QR PNGs. Install the browser once with `npx playwright install chromium`.
