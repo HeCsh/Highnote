@@ -49,6 +49,13 @@ const RAW: Raw[] = [
   // ---- week 6 ----
   { d: 38, h: 20, rating: 4, tags: ["service", "ambiance"], table: 9, comment: "Genuinely kind staff. Felt looked after." },
   { d: 40, h: 21, rating: 5, tags: ["food", "service"], table: 7, comment: "Maya + that mushroom toast = we're regulars now." },
+
+  // ---- prior month (>6 weeks old: powers the "improving this month" trend; excluded
+  //      from the 6-week chart, but counted in the all-time Google rating + distribution) ----
+  { d: 44, h: 21, rating: 3, tags: ["speed", "food"], table: 3, comment: "Saturday service lagged badly — mains took ages. Food fine." },
+  { d: 48, h: 20, rating: 2, tags: ["speed"], table: 1, comment: "Nearly an hour for mains. Kitchen clearly overwhelmed." },
+  { d: 52, h: 19, rating: 3, tags: ["food"], table: 5, comment: "Halibut arrived under-seasoned. Room is lovely though." },
+  { d: 56, h: 21, rating: 3, tags: ["speed", "service"], table: 8, comment: "Slow night, felt a bit forgotten between courses." },
 ];
 
 /** Build seed feedback dated relative to `now` (defaults to load time). */

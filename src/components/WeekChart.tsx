@@ -30,7 +30,7 @@ export default function WeekChart({ data }: { data: WeekBar[] }) {
               label={{ value: "QR live", position: "top", fill: "#f2b441", fontSize: 10 }}
             />
           )}
-          <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={38}>
+          <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={38} isAnimationActive={false}>
             {data.map((_, i) => (
               <Cell key={i} fill={i === data.length - 1 ? "#f2b441" : "#7fa98b"} />
             ))}
