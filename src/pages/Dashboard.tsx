@@ -1,9 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Logo, StarRow, Eyebrow } from "../components/ui";
 import WeekChart from "../components/WeekChart";
 import ReplyCardView from "../components/ReplyCard";
+import MenuElo from "../components/MenuElo";
 import { useFeedback } from "../lib/store";
+import { useComparisons, getMenuItems } from "../lib/menuStore";
+import { computeMenuElo, eloMovementNote, type MenuEloResult } from "../lib/menuElo";
 import {
   average,
   distribution,
@@ -12,10 +15,24 @@ import {
   capturedLive,
   relativeTime,
 } from "../lib/aggregate";
-import { generateInsights } from "../lib/ai";
+import { generateInsights, seedInsights, type EloContext } from "../lib/ai";
 import { SEED_REVIEWS, SEED_INSIGHTS } from "../lib/demoSeed";
-import { DEMO_NAME, DEMO_LOCALITY, AI_MODE } from "../lib/config";
+import { DEMO_NAME, DEMO_LOCALITY, DEMO_SLUG, AI_MODE } from "../lib/config";
 import type { Feedback, Insight, TagKey, VoiceKey } from "../lib/types";
+
+/** Build the "from Menu Elo" insight card from the biggest 3-week mover. */
+function buildEloCard(elo: MenuEloResult): Insight | undefined {
+  const b = elo.biggest;
+  if (!b || Math.abs(b.delta3w) < 8) return undefined;
+  const down = b.delta3w < 0;
+  return {
+    id: "ins-elo",
+    title: down ? `${b.name} sliding in picks` : `${b.name} climbing in picks`,
+    detail: `${b.name} ${down ? "▼" : "▲"} ${Math.abs(Math.round(b.delta3w))} Elo over 3 weeks in head-to-head choices — ${down ? "worth a look." : "lean into it."}`,
+    demo: true,
+    source: "menu-elo",
+  };
+}
 
 const TAG_EMOJI: Record<TagKey, string> = {
   food: "🍽️",
@@ -41,9 +58,27 @@ function monthlyDelta(list: Feedback[], now = Date.now()): number {
 
 export default function Dashboard() {
   const { list } = useFeedback();
+  const comparisons = useComparisons();
+  const menu = useMemo(() => getMenuItems(DEMO_SLUG), []);
   const [voice, setVoice] = useState<VoiceKey>("warm");
   const [insights, setInsights] = useState<Insight[]>(SEED_INSIGHTS);
   const [loadingInsights, setLoadingInsights] = useState(false);
+
+  // Menu Elo (recomputes as live comparisons arrive).
+  const menuElo = useMemo(() => computeMenuElo(menu, comparisons), [menu, comparisons]);
+  const eloCtx: EloContext = useMemo(
+    () => ({ note: eloMovementNote(menuElo), card: buildEloCard(menuElo) }),
+    [menuElo],
+  );
+
+  // Seed the AI Radar (including the Menu-Elo card) once, without hitting the API.
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      setInsights(seedInsights(list, eloCtx));
+    }
+  }, [list, eloCtx]);
 
   const stats = useMemo(() => {
     const avg = average(list);
@@ -61,7 +96,7 @@ export default function Dashboard() {
   async function refreshInsights() {
     setLoadingInsights(true);
     try {
-      setInsights(await generateInsights(list));
+      setInsights(await generateInsights(list, eloCtx));
     } finally {
       setLoadingInsights(false);
     }
@@ -181,14 +216,29 @@ export default function Dashboard() {
                   <div key={ins.id} className="surface lift rounded-xl p-4 animate-fade-up">
                     <div className="font-display text-base text-cream">{ins.title}</div>
                     <p className="text-sm text-on-dark mt-1.5 leading-relaxed">{ins.detail}</p>
-                    {ins.demo && (
-                      <div className="text-[10px] text-on-dark-muted mt-2 uppercase tracking-wider">
-                        demo data
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2 mt-2">
+                      {ins.source === "menu-elo" && (
+                        <span className="text-[10px] text-gold border border-gold/40 rounded-full px-1.5 py-0.5 uppercase tracking-wider">
+                          from Menu Elo
+                        </span>
+                      )}
+                      {ins.demo && (
+                        <span className="text-[10px] text-on-dark-muted uppercase tracking-wider">
+                          demo data
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
           </div>
+        </Panel>
+
+        {/* Menu Elo */}
+        <Panel
+          title="Menu Elo — what guests choose, head to head"
+          subtitle="Pairwise comparisons, ranked Chatbot-Arena style. Stars compress; choices don't."
+        >
+          <MenuElo result={menuElo} />
         </Panel>
 
         {/* Live guest feedback */}

@@ -19,12 +19,25 @@ function corpusToText(list: Feedback[]): string {
     .join("\n");
 }
 
+/** Optional Menu-Elo context, so AI Radar can surface head-to-head movements. */
+export interface EloContext {
+  note: string; // one-line corpus summary of movements
+  card?: Insight; // a ready-made seeded card (tagged source "menu-elo")
+}
+
 /** Derive labeled demo insights from the *current* corpus (counts are real). */
-function seedInsights(list: Feedback[]): Insight[] {
+export function seedInsights(list: Feedback[], elo?: EloContext): Insight[] {
   const text = list.map((f) => f.comment.toLowerCase()).join(" ");
   const mushroom = (text.match(/mushroom/g) || []).length;
   const maya = (text.match(/maya/g) || []).length;
   const pacing = list.filter((f) => f.tags.includes("speed") && f.rating <= 3).length;
+  // Third card is the Menu-Elo movement when available, else the pacing card.
+  const third: Insight = elo?.card ?? {
+    id: "ins-pacing",
+    title: "Saturday 7:30–9pm pacing",
+    detail: `${Math.max(pacing, 3)} mentions of slow mains in that window — kitchen expo may be bottlenecked.`,
+    demo: true,
+  };
   const cards: Insight[] = [
     {
       id: "ins-mushroom",
@@ -38,26 +51,22 @@ function seedInsights(list: Feedback[]): Insight[] {
       detail: `Praised ${Math.max(maya, 4)}× by name — worth a shift-lead conversation.`,
       demo: true,
     },
-    {
-      id: "ins-pacing",
-      title: "Saturday 7:30–9pm pacing",
-      detail: `${Math.max(pacing, 3)} mentions of slow mains in that window — kitchen expo may be bottlenecked.`,
-      demo: true,
-    },
+    third,
   ];
   return cards.length ? cards : SEED_INSIGHTS;
 }
 
-export async function generateInsights(list: Feedback[]): Promise<Insight[]> {
-  if (AI_MODE === "seed") return seedInsights(list);
+export async function generateInsights(list: Feedback[], elo?: EloContext): Promise<Insight[]> {
+  if (AI_MODE === "seed") return seedInsights(list, elo);
 
-  const userMsg = `Restaurant: ${DEMO_NAME}\nFeedback:\n${corpusToText(list)}`;
+  const eloBlock = elo?.note ? `\n\nMenu Elo (head-to-head dish rankings):\n${elo.note}` : "";
+  const userMsg = `Restaurant: ${DEMO_NAME}\nFeedback:\n${corpusToText(list)}${eloBlock}`;
 
   try {
     let raw: string;
     if (AI_MODE === "edge" && supabase) {
       const { data, error } = await supabase.functions.invoke("generate-insights", {
-        body: { restaurantName: DEMO_NAME, feedback: corpusToText(list) },
+        body: { restaurantName: DEMO_NAME, feedback: corpusToText(list) + eloBlock },
       });
       if (error) throw error;
       raw = typeof data === "string" ? data : JSON.stringify(data);
