@@ -105,9 +105,107 @@ export function buildSeedFeedback(now = Date.now()): Feedback[] {
   });
 }
 
-/** Seeded pairwise comparisons — the real story is built in Task 5. */
-export function buildSeedComparisons(_now = Date.now()): import("./types").Comparison[] {
-  return [];
+/**
+ * ~180 seeded pairwise comparisons over the past 6 weeks, telling a coherent story:
+ *   - Mushroom Toast: dominant (strength 4.0 → ~80% win rate), stable #1.
+ *   - Pan-Seared Halibut: wins early, loses from week 3 on → cumulative Elo declines
+ *     (visible ▼ vs 3 weeks ago), matching Priya R.'s "under-seasoned halibut".
+ *   - Olive Oil Cake: quiet overperformer (high win rate, moderate sample), top-3.
+ *   - Fog Cutter: only 3 comparisons → renders provisional (the honesty UI).
+ *   - Everything else: plausible mid-table noise.
+ * Deterministic (seeded PRNG) so the rendered panel is stable and testable.
+ */
+function seededRng(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Latent strengths (dummy "average" ≈ 1.0). Halibut is overridden per week below.
+const CMP_STRENGTH: Record<string, number> = {
+  "mushroom-toast": 4.0,
+  "olive-oil-cake": 2.3,
+  "chocolate-pot-de-creme": 1.5,
+  "dry-aged-burger": 1.4,
+  "half-roast-chicken": 1.15,
+  affogato: 1.1,
+  "little-gem-salad": 1.0,
+  "squash-risotto": 0.95,
+  "house-negroni": 0.9,
+  "crispy-brussels": 0.8,
+  "pan-seared-halibut": 1.4,
+};
+// Halibut strength by week, oldest (w0) → newest (w5): wins early, fades from week 3.
+const HALIBUT_BY_WEEK = [1.8, 1.7, 1.4, 1.0, 0.75, 0.65];
+// How often each item shows up in matchups (headliners appear more).
+const CMP_WEIGHT: Record<string, number> = {
+  "mushroom-toast": 3,
+  "pan-seared-halibut": 3,
+  "olive-oil-cake": 2,
+  "chocolate-pot-de-creme": 1.5,
+  "dry-aged-burger": 1.5,
+};
+
+export function buildSeedComparisons(now = Date.now()): import("./types").Comparison[] {
+  const rng = seededRng(20260714);
+  const ids = MENU_ITEMS.map((m) => m.id).filter((id) => id !== "fog-cutter");
+  const weightOf = (id: string) => CMP_WEIGHT[id] ?? 1;
+  const totalW = ids.reduce((s, id) => s + weightOf(id), 0);
+  const pick = () => {
+    let r = rng() * totalW;
+    for (const id of ids) {
+      r -= weightOf(id);
+      if (r <= 0) return id;
+    }
+    return ids[ids.length - 1];
+  };
+  const strengthAt = (id: string, week: number) =>
+    id === "pan-seared-halibut" ? HALIBUT_BY_WEEK[week] : CMP_STRENGTH[id];
+
+  const out: import("./types").Comparison[] = [];
+  let seq = 0;
+  const push = (a: string, b: string, winner: string | null, week: number) => {
+    const dayOffset = (5 - week) * 7 + Math.floor(rng() * 7); // week 0 = oldest
+    const created = now - dayOffset * DAY - Math.floor(rng() * 12) * 3_600_000;
+    out.push({
+      id: `seed-cmp-${seq++}`,
+      restaurant_slug: DEMO_SLUG,
+      item_a: a,
+      item_b: b,
+      winner,
+      feedback_id: null,
+      table_number: String(1 + Math.floor(rng() * 12)),
+      created_at: new Date(created).toISOString(),
+      seed: true,
+    });
+  };
+
+  for (let week = 0; week < 6; week++) {
+    for (let k = 0; k < 30; k++) {
+      const a = pick();
+      let b = pick();
+      let guard = 0;
+      while (b === a && guard++ < 10) b = pick();
+      if (b === a) continue;
+      const pa = strengthAt(a, week);
+      const pb = strengthAt(b, week);
+      const roll = rng();
+      const tie = rng() < 0.08;
+      const winner = tie ? null : roll < pa / (pa + pb) ? a : b;
+      push(a, b, winner, week);
+    }
+  }
+
+  // Fog Cutter: exactly 3 comparisons → provisional.
+  push("fog-cutter", "house-negroni", "house-negroni", 4);
+  push("fog-cutter", "affogato", null, 5);
+  push("fog-cutter", "mushroom-toast", "mushroom-toast", 5);
+
+  return out;
 }
 
 /** The three reviews awaiting a reply (matches Prototype A's dashboard). */
