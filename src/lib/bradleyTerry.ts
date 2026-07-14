@@ -187,6 +187,11 @@ export function rankItems(
   return rankings.sort((a, b) => b.score - a.score);
 }
 
+/** Fast scores (fit only, no bootstrap) — for cheap client-side pair selection. */
+export function quickScores(itemIds: string[], comparisons: RankInput[]): Map<string, number> {
+  return toScores(itemIds, fitStrengths(itemIds, tally(itemIds, comparisons)));
+}
+
 /**
  * Score of each item as of each given week-end timestamp (ms), using only
  * comparisons up to that date. Powers trend sparklines. No bootstrap (fast).

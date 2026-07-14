@@ -25,6 +25,19 @@ export interface GuestStrings {
   posted: string;
   postedSub: string;
   reviewIn: string;
+  // Menu Elo interlude (optional dish picker + comparison)
+  dishesTitle: string;
+  dishesHint: string;
+  compareTitle: string;
+  compareHint: string;
+  compareTie: string;
+  skip: string;
+  continueLabel: string;
+  optional: string;
+  sec_Starters: string;
+  sec_Mains: string;
+  sec_Desserts: string;
+  sec_Drinks: string;
 }
 
 /** Guest-facing strings only. Natural phrasing, not word-for-word. */
@@ -46,6 +59,18 @@ export const GUEST_STRINGS: Record<Lang, GuestStrings> = {
     posted: "Thanks — your review is ready for Google",
     postedSub: "Opening Google in a new tab. Your feedback also reached the owner.",
     reviewIn: "a review in under 30 seconds",
+    dishesTitle: "What did you have tonight?",
+    dishesHint: "Tap what you ordered — helps us learn the menu. Optional.",
+    compareTitle: "Which stood out more?",
+    compareHint: "Just pick a favorite — no wrong answer.",
+    compareTie: "Couldn't choose — both great",
+    skip: "Skip",
+    continueLabel: "Continue",
+    optional: "OPTIONAL",
+    sec_Starters: "Starters",
+    sec_Mains: "Mains",
+    sec_Desserts: "Desserts",
+    sec_Drinks: "Drinks",
   },
   es: {
     thanks: "GRACIAS POR SU VISITA",
@@ -64,6 +89,18 @@ export const GUEST_STRINGS: Record<Lang, GuestStrings> = {
     posted: "Gracias — tu reseña está lista para Google",
     postedSub: "Abriendo Google en una nueva pestaña. Tu opinión también llegó al dueño.",
     reviewIn: "una reseña en menos de 30 segundos",
+    dishesTitle: "¿Qué pediste esta noche?",
+    dishesHint: "Marca lo que pediste — nos ayuda a conocer el menú. Opcional.",
+    compareTitle: "¿Cuál te gustó más?",
+    compareHint: "Elige tu favorito — no hay respuesta incorrecta.",
+    compareTie: "No pude decidir — los dos geniales",
+    skip: "Omitir",
+    continueLabel: "Continuar",
+    optional: "OPCIONAL",
+    sec_Starters: "Entrantes",
+    sec_Mains: "Platos fuertes",
+    sec_Desserts: "Postres",
+    sec_Drinks: "Bebidas",
   },
   zh: {
     thanks: "感谢您的光临",
@@ -82,6 +119,18 @@ export const GUEST_STRINGS: Record<Lang, GuestStrings> = {
     posted: "谢谢 — 您的评价已准备好发布到谷歌",
     postedSub: "正在新标签页中打开谷歌。您的反馈也已送达店主。",
     reviewIn: "30 秒内完成一条评价",
+    dishesTitle: "今晚您点了什么？",
+    dishesHint: "点选您点过的菜——帮助我们了解菜单。选填。",
+    compareTitle: "哪道更出彩？",
+    compareHint: "选一个更喜欢的就好——没有标准答案。",
+    compareTie: "难以取舍——两个都很棒",
+    skip: "跳过",
+    continueLabel: "继续",
+    optional: "选填",
+    sec_Starters: "前菜",
+    sec_Mains: "主菜",
+    sec_Desserts: "甜点",
+    sec_Drinks: "饮品",
   },
 };
 

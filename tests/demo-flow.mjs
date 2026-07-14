@@ -32,18 +32,26 @@ const phone = await ctx.newPage();
 await phone.setViewportSize({ width: 390, height: 844 });
 await phone.goto(`${BASE}/r/fog-and-fern?t=12`, { waitUntil: "networkidle" });
 
-// compliance: capture Google button markup at 1★ vs 5★ — must be identical (minus disabled state)
-await phone.getByRole("radio", { name: "1 star" }).click();
-const btn1 = await phone.locator("button", { hasText: "Post your review on Google" }).innerText();
-await phone.getByRole("radio", { name: "5 stars" }).click();
-const btn5 = await phone.locator("button", { hasText: "Post your review on Google" }).innerText();
+// compliance: Google button (on the review step, reached via Continue→Skip) must be
+// identical regardless of rating. Reach it with 1★, then with 5★, and compare.
+async function reachGoogleText(stars) {
+  await phone.goto(`${BASE}/r/fog-and-fern?t=12`, { waitUntil: "networkidle" });
+  await phone.getByRole("radio", { name: new RegExp(`^${stars} star`) }).click();
+  await phone.getByRole("button", { name: /Continue/ }).click();
+  await phone.getByRole("button", { name: /^Skip$/ }).click();
+  return (await phone.locator("button", { hasText: "Post your review on Google" }).innerText()).trim();
+}
+const btn1 = await reachGoogleText(1);
+const btn5 = await reachGoogleText(5);
 ok(btn1 === btn5, `compliance: Google button text identical 1★/5★ ("${btn1}")`);
 
-// pick 4 stars + Food + comment
-await phone.getByRole("radio", { name: "4 stars" }).click();
+// full submit: 4 stars + Food + comment, skip the optional interlude, then Google step
+await phone.goto(`${BASE}/r/fog-and-fern?t=12`, { waitUntil: "networkidle" });
+await phone.getByRole("radio", { name: /^4 star/ }).click();
 await phone.getByRole("button", { name: /Food/ }).click();
 await phone.locator("#comment").fill("Mushroom toast was incredible — E2E test");
-// intercept the Google popup so it doesn't error
+await phone.getByRole("button", { name: /Continue/ }).click(); // rate -> dishes
+await phone.getByRole("button", { name: /^Skip$/ }).click(); // dishes -> review
 phone.on("popup", (p) => p.close().catch(() => {}));
 await phone.locator("button", { hasText: "Post your review on Google" }).click();
 await phone.waitForTimeout(400);
