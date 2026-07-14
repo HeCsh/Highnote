@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: #142819;
+  color: #fbf9f4;
+}
+
+/* ---- Signature receipt / ticket motifs (verbatim math from Prototype A) ---- */
+.receipt-edge-top {
+  background: radial-gradient(circle at 8px 0, transparent 6px, var(--cream, #fbf9f4) 6.5px) repeat-x;
+  background-position: 0 0;
+  background-size: 16px 12px;
+  height: 12px;
+}
+.receipt-edge-bottom {
+  background: radial-gradient(circle at 8px 12px, transparent 6px, var(--cream, #fbf9f4) 6.5px) repeat-x;
+  background-position: 0 0;
+  background-size: 16px 12px;
+  height: 12px;
+}
+.dashed-rule {
+  background-image: linear-gradient(to right, #e4dfd3 60%, transparent 0%);
+  background-position: 50%;
+  background-repeat: repeat-x;
+  background-size: 8px 1px;
+  height: 1px;
+}
+
+/* Typing-shimmer loading state for AI generation */
+.ai-shimmer {
+  background: linear-gradient(90deg, #e4dfd3 25%, #f0ece0 50%, #e4dfd3 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: 6px;
+}
+
+/* Accessible, visible focus ring across the app */
+:focus-visible {
+  outline: 2px solid #f2b441;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tap targets never below 44px on touch controls */
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Print styles for the QR code sheet (onboarding step 3) */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+  }
+}
