@@ -67,15 +67,15 @@ export default function Guest() {
   }
 
   return (
-    <div className="min-h-screen bg-page px-5 py-8 flex items-start justify-center">
+    <div className="min-h-screen px-5 py-8 flex items-start justify-center text-ink">
       <div className="w-full max-w-md">
         {/* header: logo + language toggle */}
         <div className="flex items-center justify-between mb-5">
           <Link to="/" aria-label="HighNote home">
-            <Logo className="text-sm text-cream" />
+            <Logo className="text-sm text-ink" />
           </Link>
           <div
-            className="flex items-center gap-1 rounded-full border border-on-dark-border p-0.5"
+            className="flex items-center gap-1 rounded-full border border-ink/15 bg-cream/60 p-0.5"
             role="group"
             aria-label="Language"
           >
@@ -85,7 +85,7 @@ export default function Guest() {
                 onClick={() => setLang(l.key as Lang)}
                 aria-pressed={lang === l.key}
                 className={`px-2.5 py-1 text-xs rounded-full transition ${
-                  lang === l.key ? "bg-gold text-ink font-semibold" : "text-on-dark hover:text-cream"
+                  lang === l.key ? "bg-ink text-cream font-semibold" : "text-ink/60 hover:text-ink"
                 }`}
               >
                 {l.label}
@@ -194,8 +194,8 @@ export default function Guest() {
               </button>
             </div>
 
-            <p className="text-on-dark-muted text-xs text-center mt-5">{t.compliance}</p>
-            <p className="text-on-dark/40 text-[10px] text-center mt-3 tracking-wider">
+            <p className="text-ink/50 text-xs text-center mt-5">{t.compliance}</p>
+            <p className="text-ink/40 text-[10px] text-center mt-3 tracking-wider">
               Powered by HighNote ★
             </p>
           </>

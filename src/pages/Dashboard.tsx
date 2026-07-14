@@ -71,7 +71,7 @@ export default function Dashboard() {
   const liveStream = list.slice(0, 12);
 
   return (
-    <div className="min-h-screen bg-page text-cream">
+    <div className="min-h-screen dark-canvas text-cream">
       {/* header */}
       <header className="border-b border-on-dark-border/50 animate-fade-in sticky top-0 z-20 backdrop-blur-md bg-page/70">
         <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between gap-4 flex-wrap">

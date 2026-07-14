@@ -17,8 +17,12 @@ export default {
         "muted-cream": "#f0ece0",
         // brand
         gold: "#f2b441",
+        "gold-deep": "#b9791a", // readable amber for text/accents on cream
         sage: "#7fa98b",
+        "sage-deep": "#4f7a5e", // readable sage for text on cream
         brick: "#c4452e",
+        // warm paper canvas (light pages)
+        paper: "#efe7d6",
         // neutral system
         border: "#e4dfd3",
         rule: "#e4dfd3",

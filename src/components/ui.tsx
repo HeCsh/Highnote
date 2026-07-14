@@ -63,9 +63,18 @@ export function DashedRule({ className = "" }: { className?: string }) {
   return <div className={`dashed-rule ${className}`} />;
 }
 
-/** Small uppercase gold eyebrow label. */
-export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
+/** Small uppercase eyebrow label. `tone="deep"` for readable amber on cream. */
+export function Eyebrow({
+  children,
+  className = "",
+  tone = "gold",
+}: {
+  children: ReactNode;
+  className?: string;
+  tone?: "gold" | "deep";
+}) {
+  const color = tone === "deep" ? "text-gold-deep" : "text-gold";
   return (
-    <div className={`text-xs tracking-[0.28em] text-gold uppercase ${className}`}>{children}</div>
+    <div className={`text-xs tracking-[0.28em] ${color} uppercase ${className}`}>{children}</div>
   );
 }

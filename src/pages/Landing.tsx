@@ -4,12 +4,12 @@ import { DEMO_SLUG } from "../lib/config";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen flex flex-col bg-page text-cream">
+    <div className="min-h-screen flex flex-col text-ink">
       <header className="max-w-6xl w-full mx-auto px-6 py-6 flex items-center justify-between animate-fade-in">
         <Logo className="text-xl" />
         <Link
           to="/dashboard"
-          className="text-sm text-on-dark underline-offset-4 hover:underline hover:text-cream transition-colors"
+          className="text-sm text-ink/60 underline-offset-4 hover:underline hover:text-ink transition-colors"
         >
           Owner dashboard →
         </Link>
@@ -17,26 +17,28 @@ export default function Landing() {
 
       <main className="flex-1 grid md:grid-cols-2 gap-10 max-w-6xl w-full mx-auto px-6 py-16 items-center">
         <div className="stagger">
-          <Eyebrow className="mb-4 tracking-[0.3em]">REPUTATION ENGINE</Eyebrow>
+          <Eyebrow tone="deep" className="mb-4 tracking-[0.3em]">
+            REPUTATION ENGINE
+          </Eyebrow>
           <h1 className="font-display text-6xl md:text-7xl leading-[0.95]">
-            end every meal on a <span className="text-gold">high note.</span>
+            end every meal on a <span className="text-gold-deep">high note.</span>
           </h1>
           {/* Corrected, compliance-safe hero copy (no review-gating language). */}
-          <p className="mt-6 text-base max-w-md text-on-dark leading-relaxed">
+          <p className="mt-6 text-base max-w-md text-ink/70 leading-relaxed">
             HighNote captures guest feedback at the table — then invites{" "}
-            <span className="text-cream font-medium">every diner</span> to share it on Google.
+            <span className="text-ink font-semibold">every diner</span> to share it on Google.
             Owner-only insights, in your restaurant's voice.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to={`/r/${DEMO_SLUG}?t=12`}
-              className="btn-smooth btn-sheen px-5 py-3 rounded-md text-sm font-semibold bg-gold text-ink shadow-lg shadow-gold/20 hover:brightness-105"
+              className="btn-smooth btn-sheen px-5 py-3 rounded-md text-sm font-semibold bg-ink text-cream shadow-lg shadow-ink/20 hover:bg-ink/90"
             >
               Try the guest page →
             </Link>
             <Link
               to="/dashboard"
-              className="btn-smooth px-5 py-3 rounded-md text-sm font-semibold border border-on-dark-border text-cream hover:bg-white/5 hover:border-sage/50"
+              className="btn-smooth px-5 py-3 rounded-md text-sm font-semibold border border-ink/20 text-ink hover:bg-ink/5 hover:border-ink/40"
             >
               See owner dashboard
             </Link>
@@ -61,7 +63,7 @@ export default function Landing() {
         </div>
       </main>
 
-      <footer className="max-w-6xl w-full mx-auto px-6 py-6 text-xs text-on-dark-muted">
+      <footer className="max-w-6xl w-full mx-auto px-6 py-6 text-xs text-ink/50">
         Compliance-first: every rating sees the same Google button. No rewards for reviews.
       </footer>
     </div>

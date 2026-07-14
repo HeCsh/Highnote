@@ -21,13 +21,13 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-page text-cream">
-      <header className="border-b border-on-dark-border/50 no-print">
+    <div className="min-h-screen text-ink">
+      <header className="border-b border-ink/10 no-print">
         <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link to="/">
-            <Logo className="text-lg" />
+            <Logo className="text-lg text-ink" />
           </Link>
-          <Link to="/dashboard" className="text-xs text-on-dark hover:text-cream">
+          <Link to="/dashboard" className="text-xs text-ink/60 hover:text-ink transition-colors">
             ← Back to dashboard
           </Link>
         </div>
@@ -46,23 +46,23 @@ export default function Onboarding() {
                 <span
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition ${
                     step === s.n
-                      ? "bg-gold text-ink"
+                      ? "bg-gold text-ink shadow-md shadow-gold/30"
                       : step > s.n
                         ? "bg-sage text-ink"
-                        : "border border-on-dark-border text-on-dark-muted"
+                        : "border border-ink/25 text-ink/40"
                   }`}
                 >
                   {step > s.n ? "✓" : s.n}
                 </span>
                 <span
                   className={`text-sm hidden sm:block ${
-                    step === s.n ? "text-cream" : "text-on-dark-muted"
+                    step === s.n ? "text-ink font-medium" : "text-ink/50"
                   }`}
                 >
                   {s.title}
                 </span>
               </button>
-              {i < STEPS.length - 1 && <div className="w-8 sm:w-12 h-px bg-on-dark-border mx-2" />}
+              {i < STEPS.length - 1 && <div className="w-8 sm:w-12 h-px bg-ink/15 mx-2" />}
             </div>
           ))}
         </div>
@@ -219,14 +219,14 @@ function StepQr({ onBack }: { onBack: () => void }) {
     <>
       <div className="flex items-center justify-between mb-4 no-print">
         <div>
-          <h1 className="font-display text-2xl text-cream">Print table QR codes</h1>
-          <p className="text-sm text-on-dark-muted">
+          <h1 className="font-display text-2xl text-ink">Print table QR codes</h1>
+          <p className="text-sm text-ink/60">
             Tables 1–{DEMO_TABLES}, encoding{" "}
-            <code className="text-gold">{publicOrigin()}/r/fog-and-fern</code>
+            <code className="text-gold-deep font-semibold">{publicOrigin()}/r/fog-and-fern</code>
           </p>
         </div>
         <div className="flex gap-2">
-          <button onClick={onBack} className="text-sm text-on-dark-muted hover:text-cream px-3 py-2">
+          <button onClick={onBack} className="text-sm text-ink/60 hover:text-ink px-3 py-2 transition-colors">
             ← Back
           </button>
           <button

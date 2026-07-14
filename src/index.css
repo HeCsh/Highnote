@@ -21,13 +21,25 @@ body {
   font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  color: #fbf9f4;
-  /* Layered depth on the dark canvas: two soft off-center glows over the base green. */
-  background-color: #122417;
+  color: #1e3a2a;
+  /* Warm cream "paper" canvas for the light pages (landing / guest / onboarding),
+     with two soft off-center glows for depth. The dashboard paints its own dark
+     canvas over this via .dark-canvas. */
+  background-color: #efe7d6;
   background-image:
-    radial-gradient(60rem 40rem at 85% -10%, rgba(127, 169, 139, 0.14), transparent 60%),
-    radial-gradient(48rem 36rem at 0% 100%, rgba(242, 180, 65, 0.08), transparent 55%),
-    linear-gradient(180deg, #142819 0%, #101f14 100%);
+    radial-gradient(55rem 40rem at 90% -10%, rgba(127, 169, 139, 0.22), transparent 60%),
+    radial-gradient(46rem 34rem at -6% 106%, rgba(242, 180, 65, 0.16), transparent 55%),
+    linear-gradient(180deg, #f7f1e4 0%, #ebe0cd 100%);
+  background-attachment: fixed;
+}
+
+/* Dark "cockpit" canvas — used only by the dashboard now. */
+.dark-canvas {
+  background-color: #142819;
+  background-image:
+    radial-gradient(60rem 40rem at 85% -10%, rgba(127, 169, 139, 0.16), transparent 60%),
+    radial-gradient(48rem 36rem at 0% 100%, rgba(242, 180, 65, 0.09), transparent 55%),
+    linear-gradient(180deg, #16301d 0%, #0f1e13 100%);
   background-attachment: fixed;
 }
 
