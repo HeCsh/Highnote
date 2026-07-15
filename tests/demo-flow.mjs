@@ -56,7 +56,7 @@ phone.on("popup", (p) => p.close().catch(() => {}));
 await phone.locator("button", { hasText: "Post your review on Google" }).click();
 await phone.waitForTimeout(400);
 const posted = await phone.locator("body").innerText();
-ok(/ready for Google|Thanks/i.test(posted), "guest: confirmation shown after submit");
+ok(/Review accepted|thank you/i.test(posted), "guest: confirmation shown after submit");
 
 // ---- Back on dashboard: did it appear live (<=2s)? ----
 await dash.waitForTimeout(1500);

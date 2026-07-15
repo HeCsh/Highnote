@@ -8,7 +8,7 @@ import { getMenuItems, submitComparison } from "../lib/menuStore";
 import { buildSeedComparisons } from "../lib/demoSeed";
 import { quickScores } from "../lib/bradleyTerry";
 import { selectPair } from "../lib/selectPair";
-import { DEMO_NAME, DEMO_SLUG, GOOGLE_REVIEW_URL } from "../lib/config";
+import { DEMO_NAME, DEMO_SLUG } from "../lib/config";
 
 const TAGS: { key: TagKey; emoji: string }[] = [
   { key: "food", emoji: "🍽️" },
@@ -135,8 +135,6 @@ export default function Guest() {
     }
     setSubmitting(false);
     setDone(true);
-    // Same destination for every rating — compliance-critical. Never conditioned on comparisons.
-    window.open(GOOGLE_REVIEW_URL, "_blank", "noopener");
   }
 
   return (
