@@ -16,6 +16,7 @@ import {
   relativeTime,
 } from "../lib/aggregate";
 import { generateInsights, seedInsights, type EloContext } from "../lib/ai";
+import { feedbackCsv, comparisonsCsv, downloadFile } from "../lib/exportCsv";
 import { SEED_REVIEWS, SEED_INSIGHTS } from "../lib/demoSeed";
 import { DEMO_NAME, DEMO_LOCALITY, DEMO_SLUG, AI_MODE } from "../lib/config";
 import type { Feedback, Insight, TagKey, VoiceKey } from "../lib/types";
@@ -313,6 +314,25 @@ export default function Dashboard() {
             Download table QR codes (PDF)
           </Link>
         </Panel>
+
+        {/* Owner-only research footer */}
+        <footer className="border-t border-on-dark-border/40 pt-6 flex items-center justify-between gap-4 flex-wrap">
+          <div className="text-xs text-on-dark-muted max-w-md">
+            <span className="text-on-dark font-medium">Research mode.</span> Export anonymized
+            feedback &amp; comparison data (no names, no comment text) for the star-vs-pairwise
+            discrimination study.
+          </div>
+          <button
+            onClick={() => {
+              const stamp = new Date().toISOString().slice(0, 10);
+              downloadFile(`highnote-feedback-${stamp}.csv`, feedbackCsv(list));
+              setTimeout(() => downloadFile(`highnote-comparisons-${stamp}.csv`, comparisonsCsv(comparisons)), 250);
+            }}
+            className="btn-smooth text-sm font-medium border border-on-dark-border text-cream rounded-lg px-4 py-2.5 hover:bg-white/5 hover:border-sage/50"
+          >
+            ⬇ Export data (CSV)
+          </button>
+        </footer>
       </main>
     </div>
   );
