@@ -322,16 +322,29 @@ export default function Dashboard() {
             feedback &amp; comparison data (no names, no comment text) for the star-vs-pairwise
             discrimination study.
           </div>
-          <button
-            onClick={() => {
-              const stamp = new Date().toISOString().slice(0, 10);
-              downloadFile(`highnote-feedback-${stamp}.csv`, feedbackCsv(list));
-              setTimeout(() => downloadFile(`highnote-comparisons-${stamp}.csv`, comparisonsCsv(comparisons)), 250);
-            }}
-            className="btn-smooth text-sm font-medium border border-on-dark-border text-cream rounded-lg px-4 py-2.5 hover:bg-white/5 hover:border-sage/50"
-          >
-            ⬇ Export data (CSV)
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                if (!window.confirm("Clear test submissions from this browser? The seeded demo data stays.")) return;
+                localStorage.removeItem("highnote:feedback");
+                localStorage.removeItem("highnote:comparisons");
+                window.location.reload();
+              }}
+              className="btn-smooth text-sm font-medium border border-on-dark-border text-on-dark rounded-lg px-4 py-2.5 hover:bg-white/5 hover:border-brick/50 hover:text-cream"
+            >
+              Clear test submissions
+            </button>
+            <button
+              onClick={() => {
+                const stamp = new Date().toISOString().slice(0, 10);
+                downloadFile(`highnote-feedback-${stamp}.csv`, feedbackCsv(list));
+                setTimeout(() => downloadFile(`highnote-comparisons-${stamp}.csv`, comparisonsCsv(comparisons)), 250);
+              }}
+              className="btn-smooth text-sm font-medium border border-on-dark-border text-cream rounded-lg px-4 py-2.5 hover:bg-white/5 hover:border-sage/50"
+            >
+              ⬇ Export data (CSV)
+            </button>
+          </div>
         </footer>
       </main>
     </div>
