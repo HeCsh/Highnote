@@ -8,7 +8,7 @@ import { getMenuItems, submitComparison } from "../lib/menuStore";
 import { buildSeedComparisons } from "../lib/demoSeed";
 import { quickScores } from "../lib/bradleyTerry";
 import { selectPair } from "../lib/selectPair";
-import { DEMO_NAME, DEMO_SLUG } from "../lib/config";
+import { DEMO_NAME, DEMO_SLUG, GOOGLE_REVIEW_URL } from "../lib/config";
 
 const TAGS: { key: TagKey; emoji: string }[] = [
   { key: "food", emoji: "🍽️" },
@@ -19,10 +19,6 @@ const TAGS: { key: TagKey; emoji: string }[] = [
 ];
 
 const SECTIONS: MenuSection[] = ["Starters", "Mains", "Desserts", "Drinks"];
-
-// Mock but stable Google "write a review" destination — identical for every rating.
-const GOOGLE_REVIEW_URL =
-  "https://search.google.com/local/writereview?placeid=ChIJ-fog-and-fern-demo";
 
 function slugToName(slug?: string): string {
   if (!slug || slug === DEMO_SLUG) return DEMO_NAME;

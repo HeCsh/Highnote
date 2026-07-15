@@ -17,6 +17,19 @@ export const DEMO_NAME = "Fog & Fern";
 export const DEMO_LOCALITY = "Hayes Valley · San Francisco";
 export const DEMO_TABLES = 12;
 
+/**
+ * Where the "Post your review on Google" button goes — identical for every rating.
+ * For a real listing, set VITE_GOOGLE_REVIEW_URL to its
+ *   https://search.google.com/local/writereview?placeid=<REAL_PLACE_ID>
+ * link. Fog & Fern is a fictional demo restaurant with no such page, so the safe
+ * default is a Google Maps search (always resolves, never 404s).
+ */
+export const GOOGLE_REVIEW_URL =
+  env.VITE_GOOGLE_REVIEW_URL?.trim() ||
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${DEMO_NAME} ${DEMO_LOCALITY.replace(" · ", " ")}`,
+  )}`;
+
 /** Public origin used when encoding QR codes (deployed URL when available). */
 export function publicOrigin(): string {
   const fromEnv = env.VITE_PUBLIC_URL?.trim();
