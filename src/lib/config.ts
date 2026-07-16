@@ -1,11 +1,20 @@
 /**
- * Runtime capability detection. The app is fully functional with ZERO env vars
- * (local demo mode); each env var upgrades one capability.
+ * Runtime capability detection. Each env var overrides a built-in default.
+ *
+ * The Supabase URL + anon key are baked in so cross-device realtime works on every
+ * deploy with no dashboard configuration. The anon key is meant to be public (it's a
+ * client key); the database's Row Level Security limits it to insert/read of the demo
+ * restaurant's feedback + comparisons only. Set VITE_SUPABASE_* to point at your own
+ * project instead.
  */
 const env = import.meta.env;
 
-export const SUPABASE_URL = env.VITE_SUPABASE_URL?.trim() || "";
-export const SUPABASE_ANON_KEY = env.VITE_SUPABASE_ANON_KEY?.trim() || "";
+const DEFAULT_SUPABASE_URL = "https://quuhybrzcrafgqxgkbrg.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1dWh5YnJ6Y3JhZmdxeGdrYnJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNjIwOTYsImV4cCI6MjA5OTYzODA5Nn0.YIDueKoZ-wh4Oy3o4lmj_u_PKS6lHG14q194LY_tZYE";
+
+export const SUPABASE_URL = env.VITE_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL;
+export const SUPABASE_ANON_KEY = env.VITE_SUPABASE_ANON_KEY?.trim() || DEFAULT_SUPABASE_ANON_KEY;
 export const ANTHROPIC_KEY = env.VITE_ANTHROPIC_API_KEY?.trim() || "";
 
 export const HAS_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
